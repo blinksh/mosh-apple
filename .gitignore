@@ -1,0 +1,7 @@
+mosh
+.build
+.swiftpm
+bin
+frameworks
+.DS_Store
+Package.resolved
