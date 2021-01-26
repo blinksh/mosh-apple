@@ -7,7 +7,7 @@ let package = Package(
   name: "mosh-apple",
   platforms: [.macOS("11")],
   dependencies: [
-    .package(url: "https://github.com/yury/FMake", from : "0.0.10"),
+    .package(url: "https://github.com/yury/FMake", from : "0.0.14"),
     // .package(path: "../FMake")
   ],
   targets: [
