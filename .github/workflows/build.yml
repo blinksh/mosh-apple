@@ -19,6 +19,9 @@ jobs:
     - name: install protobuf
       run: brew install protobuf
 
+    - name: install automake
+      run: brew list automake
+
     - name: Delete release notes
       run: rm -f .build/release.md
 
