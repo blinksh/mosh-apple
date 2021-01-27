@@ -39,7 +39,7 @@ let protobufProtoc = "/usr/local/bin/protoc"
 let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
 let moshSrcPath = "\(pwd)/mosh"
 
-let platforms = Platform.allCases
+let platforms = Platform.allCases // [Platform.iPhoneOS]
 
 extension Platform {
   var protobufPath: String {
@@ -143,29 +143,30 @@ for p in platforms {
   frameworks.append(frameworkPath)
 }
 
-let xcframework = ".build/\(Config.frameworkName).xcframework"
-try? sh("rm -rf", xcframework)
+try cd(".build") {
+  let xcframework = "\(Config.frameworkName).xcframework"
+  let zip = "\(xcframework).zip"
+  try? sh("rm -rf", xcframework)
+  try? sh("rm -f", zip)
 
-try sh(
-  "xcodebuild",
-  "-create-xcframework",
-  frameworks.map { "-framework \($0)" }.joined(separator: " "),
-  "-output", xcframework
-)
+  try sh(
+    "xcodebuild",
+    "-create-xcframework",
+    frameworks.map { "-framework \($0)" }.joined(separator: " "),
+    "-output", xcframework
+  )
 
-let zip = "\(xcframework).zip"
-try sh("zip -r", zip, xcframework)
-let checksum = try sha(path: zip)
+  try sh("zip -r", zip, xcframework)
+  let checksum = try sha(path: zip)
 
-let releaseNotes = """
+  let releaseNotes = 
+  """
 
-Release notes:
+  Release notes:
 
-| File                            | SHA 256                                             |
-| ------------------------------- |:---------------------------------------------------:|
-| \(Config.frameworkName).xcframework.zip | \(checksum) |
+  \( [[zip, checksum]].markdown(headers: "File", "SHA 256") )
 
+  """
 
-"""
-
-try write(content: releaseNotes, atPath: ".build/release.md")
+  try write(content: releaseNotes, atPath: "release.md")
+}
