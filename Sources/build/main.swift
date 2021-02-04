@@ -156,7 +156,7 @@ try cd(".build") {
     "-output", xcframework
   )
 
-  try sh("zip -r", zip, xcframework)
+  try sh("zip --symlinks -r", zip, xcframework)
   let checksum = try sha(path: zip)
 
   let releaseNotes = 
