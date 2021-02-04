@@ -13,7 +13,7 @@ let package = Package(
   targets: [
     .binaryTarget(
         name: "Protobuf_C_",
-        url: "https://github.com/yury/protobuf-apple/releases/download/v3.14.0/Protobuf_C_-static.xcframework.zip",
+        url: "https://github.com/blinksh/protobuf-apple/releases/download/v3.14.0/Protobuf_C_-static.xcframework.zip",
         checksum: "a90dbb75b3ef12224d66cddee28073066e0cab6453f79392d8f954b5904b8790"
     ),
     .target(
