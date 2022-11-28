@@ -35,7 +35,7 @@ try cd("mosh") {
 }
 
 let pwd = cwd()
-let protobufProtoc = "/opt/homebrew/bin/protoc"
+let protobufProtoc = "/usr/local/bin/protoc"
 let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
 let moshSrcPath = "\(pwd)/mosh"
 
