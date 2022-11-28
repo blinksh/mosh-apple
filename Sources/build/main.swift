@@ -6,8 +6,8 @@ import Foundation
 
 enum Config {
   static let moshOrigin  = "https://github.com/blinksh/mosh.git"
-  static let moshSHA     = "5eb502e2373c227f4930d3651fffb15b647c832f"
-  static let moshVersion = "1.3.2"
+  static let moshSHA     = "63d6b6539a3da511df93543aa13adb4957bb3755"
+  static let moshVersion = "1.4.0"
   
   static let frameworkName = "mosh"
 }
@@ -35,7 +35,7 @@ try cd("mosh") {
 }
 
 let pwd = cwd()
-let protobufProtoc = "/usr/local/bin/protoc"
+let protobufProtoc = "/opt/homebrew/bin/protoc"
 let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
 let moshSrcPath = "\(pwd)/mosh"
 
