@@ -6,7 +6,7 @@ import Foundation
 
 enum Config {
   static let moshOrigin  = "https://github.com/blinksh/mosh.git"
-  static let moshSHA     = "87bdbe56ed736626fd6102fa6a7b3b550dd93d54"
+  static let moshSHA     = "cbad23e600df9f44393ddf1308db9161a159aa4e"
   static let moshVersion = "1.4.0"
   
   static let frameworkName = "mosh"
