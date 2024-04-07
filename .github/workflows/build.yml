@@ -17,7 +17,7 @@ jobs:
       run: sudo xcode-select -s /Applications/Xcode.app
 
     - name: install protobuf
-      run: brew install protobuf
+      run: brew install protobuf@21
 
     - name: install automake
       run: brew install automake
@@ -29,7 +29,13 @@ jobs:
       run: rm -f .build/release.md
 
     - name: Run build
+      env:
+        PKG_CONFIG_PATH: "/usr/local/opt/protobuf@21/lib/pkgconfig"
       run: swift run
+
+    - name: Ls structure
+      if: failure()
+      run: ls -al /Users/runner/work/mosh-apple/mosh-apple/.build/artifacts/mosh-apple/Protobuf_C_.xcframework/ && ls -al /Users/runner/work/mosh-apple/mosh-apple/.build/artifacts/mosh-apple/Protobuf_C_.xcframework/tvos-arm64/Protobuf_C_.framework && ls -al /Users/runner/work/mosh-apple/mosh-apple/.build/artifacts/mosh-apple/Protobuf_C_.xcframework/tvos-arm64/Protobuf_C_.framework/Headers/google/protobuf
 
     - name: Create Release
       id: create_release

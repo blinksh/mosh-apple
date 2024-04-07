@@ -6,9 +6,9 @@ import Foundation
 
 enum Config {
   static let moshOrigin  = "https://github.com/blinksh/mosh.git"
-  static let moshSHA     = "cbad23e600df9f44393ddf1308db9161a159aa4e"
-  static let moshVersion = "1.4.0"
-  
+  static let moshSHA     = "51d3de0af5a9fac97d1d1f6355487ee61b19e989"
+  static let moshVersion = "1.4.0+blink-17.3.0"
+  static let moshVersionPlist = "1.4.0.1730"
   static let frameworkName = "mosh"
 }
 
@@ -26,7 +26,7 @@ extension Platform {
 
 OutputLevel.default = .error
 
-// use from `brew install protobuf`
+// use from `brew install protobuf@21`
 
 try? sh("rm -rf mosh")
 try sh("git clone", Config.moshOrigin)
@@ -35,7 +35,8 @@ try cd("mosh") {
 }
 
 let pwd = cwd()
-let protobufProtoc = "/usr/local/bin/protoc"
+let protobufProtoc = "/usr/local/opt/protobuf@21/bin/protoc"
+//let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_/Protobuf_C_.xcframework"
 let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
 let moshSrcPath = "\(pwd)/mosh"
 
@@ -78,7 +79,10 @@ for p in platforms {
     
     let cflags = "\(p.ccFlags(arch: arch, minVersion: p.deploymentTarget)) -I/usr/local/opt/ncurses/include"
     let cc = try readLine(cmd: "xcrun -find clang")
-    
+    try? sh("ls \(protobufXCFrameworkPath)")
+    try? sh("ls \(protobufXCFrameworkPath)/\(p.protobufPath)")
+    try? sh("ls \(protobufXCFrameworkPath)/\(p.protobufPath)/Protobuf_C_.framework")
+
     var env = ProcessInfo.processInfo.environment
     env["ac_cv_path_PROTOC"] = protobufProtoc
     env["protobuf_LIBS"] = "\(protobufFramewokPath)"
@@ -95,6 +99,7 @@ for p in platforms {
     try cd(moshSrcPath) {
       try sh("./autogen.sh", env: env)
       try sh("./configure --prefix=\(prefixPath)/lib --disable-server --disable-client --enable-ios-controller --host=\(arch)-apple-darwin", env: env)
+      // try sh("./configure CXXFLAGS=-std=c++14 --prefix=\(prefixPath)/lib --disable-server --disable-client --enable-ios-controller --host=\(arch)-apple-darwin", env: env)
       try sh("make clean", env: env)
       try sh("make", env: env)
       
@@ -123,7 +128,7 @@ for p in platforms {
   
   let plist = try p.plist(
     name: Config.frameworkName,
-    version: Config.moshVersion,
+    version: Config.moshVersionPlist,
     id: "org.mosh",
     minSdkVersion: p.deploymentTarget
   )
