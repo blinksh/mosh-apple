@@ -6,9 +6,9 @@ import Foundation
 
 enum Config {
   static let moshOrigin  = "https://github.com/blinksh/mosh.git"
-  static let moshSHA     = "51d3de0af5a9fac97d1d1f6355487ee61b19e989"
-  static let moshVersion = "1.4.0+blink-17.3.0"
-  static let moshVersionPlist = "1.4.0.1730"
+  static let moshSHA     = "3640d36678dc415ba24f03d7f6fb20a0dac1fa6b"
+  static let moshVersion = "1.4.0+blink-18.4.5"
+  static let moshVersionPlist = "1.4.0.1845"
   static let frameworkName = "mosh"
 }
 
@@ -24,7 +24,7 @@ extension Platform {
 }
 
 
-OutputLevel.default = .error
+OutputLevel.default = .debug
 
 // use from `brew install protobuf@21`
 
@@ -35,9 +35,9 @@ try cd("mosh") {
 }
 
 let pwd = cwd()
-let protobufProtoc = "/usr/local/opt/protobuf@21/bin/protoc"
-//let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_/Protobuf_C_.xcframework"
-let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
+let protobufProtoc = "/opt/homebrew/opt/protobuf@21/bin/protoc"
+let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_/Protobuf_C_.xcframework"
+//let protobufXCFrameworkPath = "\(pwd)/.build/artifacts/mosh-apple/Protobuf_C_.xcframework"
 let moshSrcPath = "\(pwd)/mosh"
 
 let platforms = Platform.allCases // [Platform.iPhoneOS]
@@ -77,7 +77,7 @@ for p in platforms {
     try sh("mkdir -p \(prefixPath)/include")
     try sh("mkdir -p \(prefixPath)/lib")
     
-    let cflags = "\(p.ccFlags(arch: arch, minVersion: p.deploymentTarget)) -I/usr/local/opt/ncurses/include"
+    let cflags = "\(p.ccFlags(arch: arch, minVersion: p.deploymentTarget)) -I/opt/homebrew/opt/ncurses/include"
     let cc = try readLine(cmd: "xcrun -find clang")
     try? sh("ls \(protobufXCFrameworkPath)")
     try? sh("ls \(protobufXCFrameworkPath)/\(p.protobufPath)")
